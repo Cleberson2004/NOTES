@@ -6,16 +6,13 @@ use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
-    public function index($value)
+    public function index()
     {
-        return view('main', ['value' => $value]);
+        echo 'I am inside the APP!';
     }
-      public function page2($value)
+
+    public function newNote()
     {
-        return view('page2', ['value' => $value]);
-    }
-      public function page3($value)
-    {
-        return view('page3', ['value' => $value]);
+        echo 'I am creating a new Note!';
     }
 };

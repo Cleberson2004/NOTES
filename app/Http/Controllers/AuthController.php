@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use PDOException;
 
 class AuthController extends Controller
 {
@@ -30,14 +33,51 @@ class AuthController extends Controller
             $username = $request -> input('text_username');
             $password = $request -> input('text_password');
 
-            try {
+            //check if user exists
+            $user = User::where('username', $username)
+                        ->where('deleted_at', NULL)
+                        ->first();
+
                 
-            } catch (\Throwable $th) {
+                        
+                if(!$user){
+                    return redirect()
+                    ->back()
+                    ->withInput()
+                    ->with('loginError', 'Password ou username incorretos');
+                }
+                //check if password is correct
+                if(!password_verify($password, $user->password)){
+                    return redirect()
+                    ->back()
+                    ->withInput()
+                    ->with('loginError', 'Password ou username incorretos');
+                }
+                //update last login
+                $user->last_login = date('Y-m-d H:i:s');
+                $user->save();
+
+                // login user
+                session([
+                    'user' => [
+                        'id' => $user->id,
+                        'username' => $user->username
+                    ]
+                ]);
                 
-            }
-            echo 'OK!';
+                echo 'LOGIN COM SUCESSO!';
+            //get all users
+            //$users = User::all()->toArray();
+            //using as a object instance of the model's class
+            //$userModel = new User();
+            //$users = $userModel->all()->toArray();
+            //echo '<pre>';
+            //print_r($users);
+            
     }
     public function logout(){
-        echo "Logout";
+        //logout from the application
+        session()->forget('user');
+        return redirect()->to('/login');
     }
 }
