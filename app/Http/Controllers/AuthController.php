@@ -64,8 +64,9 @@ class AuthController extends Controller
                         'username' => $user->username
                     ]
                 ]);
+                //redirect to home
+                return redirect()->to('/');
                 
-                echo 'LOGIN COM SUCESSO!';
             //get all users
             //$users = User::all()->toArray();
             //using as a object instance of the model's class
