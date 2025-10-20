@@ -9,7 +9,6 @@
                 <div class="text-center p-3">
                     <img src="assets/images/logo.png" alt="Notes logo">
                 </div>
-
                 <!-- form -->
                 <div class="row justify-content-center">
                     <div class="col-md-10 col-12">
