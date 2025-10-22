@@ -56,6 +56,7 @@ class MainController extends Controller
     public function deleteNote($id)
     {
         //$id = $this->decryptId($id);
+        $id = Operations::decryptId($id);
         echo 'I am deleting the note with id = $id';
     }
 };
