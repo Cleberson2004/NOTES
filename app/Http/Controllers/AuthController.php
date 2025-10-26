@@ -38,8 +38,8 @@ class AuthController extends Controller
                         ->where('deleted_at', NULL)
                         ->first();
 
-                
-                        
+
+
                 if(!$user){
                     return redirect()
                     ->back()
@@ -66,7 +66,7 @@ class AuthController extends Controller
                 ]);
                 //redirect to home
                 return redirect()->to('/');
-                
+
             //get all users
             //$users = User::all()->toArray();
             //using as a object instance of the model's class
@@ -74,7 +74,7 @@ class AuthController extends Controller
             //$users = $userModel->all()->toArray();
             //echo '<pre>';
             //print_r($users);
-            
+
     }
     public function logout(){
         //logout from the application
