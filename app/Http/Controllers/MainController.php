@@ -35,6 +35,8 @@ class MainController extends Controller
             //error mensages
             [
                 'text_title.required' => 'O titulo da nota é obrigatório',
+                'text_title.min' => 'O titulo da nota deve ter pelo menos é :min caracteres',
+                'text_title.max' => 'O titulo da nota deve ter no máximo é :max caracteres',
                 'text_note.required' => 'O texto da nota é obrigatório',
                 'text_note.min' => 'A nota deve ter pelo menos é :min caracteres',
                 'text_note.max' => 'A nota deve ter pelo menos é :max caracteres',
@@ -57,7 +59,6 @@ class MainController extends Controller
 
     public function editNote($id)
     {
-        //$id = $this->decryptId($id);
         $id = Operations::decryptId($id);
 
         //load note
@@ -67,20 +68,49 @@ class MainController extends Controller
     }
     public function editNoteSubmit(Request $request)
     {
+        
         //validade request
+        $request->validate(
+            //rules
+            [
+                'text_title' => 'required|min:3|max:200',
+                'text_note' => 'required|min:3|max:3000'
+            ],
+            //error mensages
+            [
+                'text_title.required' => 'O titulo da nota é obrigatório',
+                'text_title.min' => 'O titulo da nota deve ter pelo menos é :min caracteres',
+                'text_title.max' => 'O titulo da nota deve ter no máximo é :max caracteres',
+                'text_note.required' => 'O texto da nota é obrigatório',
+                'text_note.min' => 'A nota deve ter pelo menos é :min caracteres',
+                'text_note.max' => 'A nota deve ter pelo menos é :max caracteres',
+            ]
+        );
 
+        //check if note_id exist
+        if($request->note_id == null){
+            return redirect()->route('home');
+        }
         //decrypt note_id
+        $id = Operations::decryptId($request->note_id);
 
         //load note
+        $note = Note::find($id);
 
         //update note
+        $note->title = $request->text_title;
+        $note->text = $request->text_note;
+        $note->save();
 
         //redirect to home
+        return redirect()->route('home');
     }
     public function deleteNote($id)
     {
-        //$id = $this->decryptId($id);
         $id = Operations::decryptId($id);
-        echo 'I am deleting the note with id = $id';
+        //load note
+        $note = Note::find($id);
+        //show delete message confirmation
+        return view('delete_note',['note' => $note]);
     }
 };
