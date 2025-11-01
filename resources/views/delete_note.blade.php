@@ -11,10 +11,10 @@
                 <p class="text-secondary">Are you sure you want to delete this note?</p>
                 <div class="mt-3">
                     <a href="{{ route('home') }}" class="btn btn-primary px-5 m-2"><i class="fa-solid fa-xmark me-2"></i>No</a>
-                    <a href="{{ route('deleteConfirm') }}" class="btn btn-danger px-5 m-2"><i class="fa-solid fa-trash me-2"></i>Yes</a>
+                    <a href="{{ route('deleteConfirm', ['id' => Crypt::encrypt($note['id'])]) }}" class="btn btn-danger px-5 m-2"><i class="fa-solid fa-trash me-2"></i>Yes</a>
                 </div>
             </div>
         </div>
-    </div>
+</div>
 </div>
 @endsection

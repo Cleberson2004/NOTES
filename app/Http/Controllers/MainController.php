@@ -113,4 +113,20 @@ class MainController extends Controller
         //show delete message confirmation
         return view('delete_note',['note' => $note]);
     }
+    public function deleteNoteConfirm($id)
+    {
+        //check if the id is encrypted
+        $id = Operations::decryptId($id);
+
+        //load note
+        $note = Note::find($id);
+
+        //1. hard delete
+        $note->delete();
+
+        //2. soft delete
+
+        //redirect to home
+        return redirect()->route('home');
+    }
 };
